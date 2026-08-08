@@ -63,7 +63,7 @@ void *conta_primos(void *arg)
     int cont =0;
 
     args_t *a = (args_t *) arg;
-    for (int i = a->inicio;i <= a->fim;i++){
+    for (int i = a->inicio; i < a->fim; i++){
         if(eh_primo(i) == 1 || eh_primo(i) == 2){
             cont++;
         }
@@ -94,9 +94,18 @@ int main(int argc, char **argv)
     /*       thread i cuida de [2 + i*tam, 2 + (i+1)*tam),             */
     /*       e a ultima thread vai ate N (para nao perder o resto).    */
     /* ============================================================== */
+    int tam = (N - 2) / T;
 
-    void *divide_intervalo(void* args){
-        
+    for(int i = 0;i < T; i++){
+        args[i].inicio = 2 + i * tam;
+
+        if(i == T -1){
+            args[i].fim = N;
+        }
+        else{
+            args[i].fim = 2 + (i + 1) * tam;
+        }
+        pthread_create(&threads[i], NULL, conta_primos, &args[i]);
     }
 
     /* ============================================================== */
