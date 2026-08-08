@@ -1,0 +1,26 @@
+ Computação de Alto Desempenho - Respostas
+
+Parte 0: 
+
+Q1. Sim muda, porque todas as threads estão em condição de corrida (race condition). 
+
+Q2. Comentando o laço de pthread_join, quem chamou nunca vai ser bloqueado, e a thread não será indicada quando for terminada. Executando novamente, notamos que as threads iniciam mas nunca terminam,
+
+Q3. Porque com uma única variável reutilizada no laço, todas as threads poderiam ler e escrever nela e haveria interferência de resultado. O ideal é cada thread ter seu espaço de variável disponível. 
+
+Parte 1: 
+
+Threads    Tempo (s)      Speedup = T1/Tn
+   1          
+   2
+   3
+ 
+
+
+Parte 2:
+
+Compile e execute o programa como está, várias vezes, com 4 threads. O saldo final está correto? Ele é o
+mesmo em todas as execuções? Explique, em termos das instruções que o processador executa para fazer
+saldo++, por que os depósitos se perdem.
+
+a) 
