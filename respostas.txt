@@ -30,9 +30,17 @@ o desempenho piorou, mas isso já era esperado.
 
 
 Parte 2:
+Resultados (T=4, esperado=20.000.000):
+(a) sem protecao: 11170028 / 9431722 / 8849699 - ERRADO, muda a cada execucao - 0,04s
+(b) mutex por incremento: 20000000 - correto - 0,43s
+(c) acumulador local: 20000000 - correto - 0,001s
 
-Compile e execute o programa como está, várias vezes, com 4 threads. O saldo final está correto? Ele é o
-mesmo em todas as execuções? Explique, em termos das instruções que o processador executa para fazer
-saldo++, por que os depósitos se perdem.
+(a) Errado e muda a cada vez porque saldo++ nao e atomico (le, soma, escreve em 3 passos). Se uma thread e interrompida no meio, outra le o valor antigo e sobrescreve, perdendo depositos. Volatile nao resolve, so evita otimizacao do compilador.
 
-a) 
+(b) Com mutex no saldo++, fica sempre correto, pois so uma thread por vez entra na secao critica. Mas fica 10x mais lento, porque agora sao 20 milhoes de lock/unlock e cada um tem custo.
+
+(c) Cada thread soma numa variavel local, sem disputa, e so no final trava o mutex uma vez para somar no saldo global. Fica correto e muito mais rapido, pois o mutex e disputado so 4 vezes em vez de 20 milhoes.
+
+Q6 - So vale proteger cada operacao quando o dado precisa ser visto pelas outras threads a cada passo. Quando as operacoes sao independentes, e melhor acumular localmente e sincronizar uma unica vez no final, pois o custo do mutex e quase fixo por aquisicao.
+
+Q7 - No Exercicio 1 cada thread ja calculava o parcial numa variavel local e so depois do pthread_join a thread principal somava os parciais. Mesmo padrao da versao (c).
