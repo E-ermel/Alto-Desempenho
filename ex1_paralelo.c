@@ -114,7 +114,10 @@ int main(int argc, char **argv)
     /* ============================================================== */
     long total = 0;
 
-    /* SEU CODIGO AQUI */
+    for (int i = 0; i < T; i++){
+        pthread_join(threads[i], NULL);
+        total += args[i].parcial;
+    }
 
     double t1 = agora();
 

@@ -11,9 +11,21 @@ Q3. Porque com uma única variável reutilizada no laço, todas as threads poder
 Parte 1: 
 
 Threads    Tempo (s)      Speedup = T1/Tn
-   1          
-   2
-   3
+   1          5.889           1.00
+   2          5.942           0.99
+   4          5.947           0.99
+
+Q4. O speedup ficou abaixo do ideal. Com 2 threads, o esperado seria aproximadamente 2×, porém foi obtido um speedup de apenas 0,99×.
+ Isso ocorre porque, apesar de as threads receberem aproximadamente a mesma quantidade de números,
+ o custo para verificar se um número é primo não é igual para todos os números. 
+ Números maiores podem exigir mais operações para determinar se são primos.
+
+Uma forma de melhorar o balanceamento seria dividir o intervalo em pequenos blocos e distribuir esses blocos dinamicamente entre as threads.
+ Assim, quando uma thread terminar um bloco, ela poderia receber outro, evitando que algumas threads terminem muito antes das outras.
+
+Q5. Após executar o comando nproc, foi possivel verificar que o sistema está utilizando 2 CPUS logicas. O esperado seria que o speedup
+melhorasse passando de 1 para 2 threads, contudo não foi o que efetivamente aconteceu, além disso quando aumentamos os numeros de criação de threads
+o desempenho piorou, mas isso já era esperado.
  
 
 
